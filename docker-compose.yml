@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    container_name: morning-brief-db
+    environment:
+      POSTGRES_USER: trader_admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: trading
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d:ro   # crée le schéma et le rôle lecture seule
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

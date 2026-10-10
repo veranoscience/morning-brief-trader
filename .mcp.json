@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "trading-db": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://brief_reader:lecture_seule@localhost:5432/trading"
+      ]
+    }
+  }
+}

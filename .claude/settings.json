@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python scripts/compute_risk.py:*)",
+      "Bash(python3 scripts/compute_risk.py:*)",
+      "mcp__trading-db__query",
+      "Write(briefs/**)"
+    ],
+    "deny": [
+      "Bash(psql:*)",
+      "Bash(rm -rf:*)",
+      "Read(.env)"
+    ]
+  }
+}
