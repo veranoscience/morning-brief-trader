@@ -18,6 +18,8 @@ Un assistant IA branché sur des données de trading doit être **utile sans êt
 ## Pourquoi les calculs sont dans un script
 Le modèle rédige, le code calcule. Les chiffres sont donc reproductibles, testés (`pytest`) et auditables : on peut relancer le script sur une date passée et retrouver exactement le même brief.
 
+Le code relit aussi : `scripts/check_brief.py` compare chaque brief rédigé au calcul de référence (P&L, expositions, mesure, % d'utilisation et statut de chaque limite, présence des dépassements en tête) ; l'agent `morning-brief` le lance après la rédaction et signale tout écart dans la synthèse du desk.
+
 ## Ce qu'il faudrait ajouter en production
 - Authentification par utilisateur (SSO) et rôles par desk : un trader ne voit que ses positions.
 - Journal d'audit des requêtes de l'agent.

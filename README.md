@@ -4,7 +4,7 @@
 
 Chaque matin, avant l'ouverture, l'agent prépare pour chaque trader un brief de 30 secondes : P&L de la veille, contrôle des limites de risque, mouvements de marché importants. Les dépassements de limites apparaissent en tête.
 
-> Projet de démonstration — portefeuilles, traders et limites sont fictifs. Les cours sont réels (yfinance) ou simulés.
+> Projet de démonstration — portefeuilles, traders et limites sont fictifs. Les cours sont réels (yfinance).
 
 ## Le problème métier
 Au middle office, le contrôle des limites du matin est souvent manuel : extraction, tableur, mise en forme, e-mail. C'est répétitif et une erreur peut coûter cher. Ce projet montre comment l'automatiser **sans donner à l'IA de pouvoir sur les positions**.
@@ -29,6 +29,7 @@ flowchart LR
 |---|---|---|
 | Données | `db/01_schema.sql`, `scripts/seed.py` | Positions, limites, cours ; rôle lecture seule pour Claude |
 | Calcul | `scripts/compute_risk.py` | P&L, expositions, contrôle des limites → JSON. Testé avec `pytest` |
+| Contrôle | `scripts/check_brief.py` | Relit chaque brief et le compare au calcul de référence (OK / ÉCART, code retour 1 en cas d'écart). Testé avec `pytest` |
 | Connecteur MCP | `.mcp.json` | Claude interroge la base en SQL, en lecture seule |
 | Skill | `.claude/skills/risk-brief/SKILL.md` | Règles et modèle du brief |
 | Agent | `.claude/agents/morning-brief.md` | Enchaîne tous les traders et produit la synthèse du desk |
@@ -58,6 +59,18 @@ pytest -q
 python scripts/compute_risk.py --trader T01
 ```
 
+### Sans Docker (PostgreSQL déjà installé, ex. Homebrew)
+
+```bash
+# en tant que super-utilisateur local (sur Homebrew : votre compte macOS)
+psql -d postgres -c "CREATE ROLE trader_admin LOGIN PASSWORD 'admin' CREATEROLE"
+psql -d postgres -c "CREATE DATABASE trading OWNER trader_admin"
+psql "postgresql://trader_admin:admin@localhost:5432/trading" -f db/01_schema.sql
+```
+
+`CREATEROLE` est nécessaire : le schéma crée lui-même le rôle en lecture seule `brief_reader`.
+Le connecteur MCP a aussi besoin de Node.js (`brew install node`).
+
 ## Utilisation avec Claude Code
 
 ```bash
@@ -69,7 +82,7 @@ Puis, par exemple :
 - `Fais le brief risque de Léa Martin` → la skill `risk-brief` seule.
 - `Quelle est l'exposition de Marc au secteur Énergie depuis 5 jours ?` → requête SQL via le connecteur MCP.
 
-Exemple de sortie : [`briefs/exemple_2026-10-09_T01.md`](briefs/exemple_2026-10-09_T01.md).
+Exemple de sortie : [`briefs/2026-10-09_T01.md`](briefs/2026-10-09_T01.md).
 
 ## Projet Claude pour les équipes métier
 Dans claude.ai, créer un Projet « Desk Actions US », y ajouter `docs/glossaire.md` et `docs/politique-limites.md`, et ces instructions :
