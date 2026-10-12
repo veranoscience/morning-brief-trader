@@ -88,6 +88,8 @@ L'application s'ouvre sur http://localhost:8501. On choisit la séance dans le p
 | **Détail trader** | Indicateurs clés, utilisation de chaque limite (seuils 80 % et 100 %), exposition nette par secteur, mouvements notables, positions |
 | **Brief IA** | Affiche le brief du trader pour la séance (`briefs/`), le fait rédiger par Claude et permet de le télécharger |
 
+![Onglet Détail trader : indicateurs clés, contrôle des limites, exposition nette par secteur et positions de Léa Martin (T01)](docs/images/detail-trader.webp)
+
 Variables d'environnement : `DATABASE_URL` (par défaut le rôle en lecture seule `brief_reader`), `ANTHROPIC_API_KEY` (facultative : sans elle, le bouton de génération est désactivé et l'onglet affiche les briefs déjà produits par l'agent), `CLAUDE_MODEL` (facultative).
 
 **Dans l'application, Claude ne reçoit que les chiffres déjà calculés** par `compute_risk.py`, transmis en JSON avec les consignes de la skill `risk-brief`. Il n'a ni accès à la base, ni outil, ni droit d'écriture : il renvoie un texte, et c'est l'application qui l'enregistre dans `briefs/`. Pour contrôler un brief généré depuis l'application, lancer `python scripts/check_brief.py <brief>`.
