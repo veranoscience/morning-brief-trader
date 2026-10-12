@@ -6,6 +6,8 @@ Chaque matin, avant l'ouverture, l'agent prépare pour chaque trader un brief de
 
 > Projet de démonstration — portefeuilles, traders et limites sont fictifs. Les cours sont réels (yfinance).
 
+![Onglet Détail trader : indicateurs clés, contrôle des limites, exposition nette par secteur et positions de Léa Martin (T01)](docs/images/detail-trader.webp)
+
 ## Le problème métier
 Au middle office, le contrôle des limites du matin est souvent manuel : extraction, tableur, mise en forme, e-mail. C'est répétitif et une erreur peut coûter cher. Ce projet montre comment l'automatiser **sans donner à l'IA de pouvoir sur les positions**.
 
@@ -87,8 +89,6 @@ L'application s'ouvre sur http://localhost:8501. On choisit la séance dans le p
 | **Vue desk** | Dépassements de limites en tête, puis une ligne par trader : P&L du jour, P&L latent, exposition brute, nombre de dépassements et d'alertes |
 | **Détail trader** | Indicateurs clés, utilisation de chaque limite (seuils 80 % et 100 %), exposition nette par secteur, mouvements notables, positions |
 | **Brief IA** | Affiche le brief du trader pour la séance (`briefs/`), le fait rédiger par Claude et permet de le télécharger |
-
-![Onglet Détail trader : indicateurs clés, contrôle des limites, exposition nette par secteur et positions de Léa Martin (T01)](docs/images/detail-trader.webp)
 
 Variables d'environnement : `DATABASE_URL` (par défaut le rôle en lecture seule `brief_reader`), `ANTHROPIC_API_KEY` (facultative : sans elle, le bouton de génération est désactivé et l'onglet affiche les briefs déjà produits par l'agent), `CLAUDE_MODEL` (facultative).
 
