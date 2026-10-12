@@ -3,3 +3,6 @@ numpy>=1.26
 psycopg[binary]>=3.2
 yfinance>=0.2.40
 pytest>=8.0
+streamlit>=1.40
+altair>=5
+anthropic>=0.40
